@@ -68,78 +68,29 @@ class SortingRobot:
         """
         return self._light == "ON"
 
+
     def sort(self):
-        """
-        Sort the robot's list.
-        """
-        # Ok so Selection Sort!
-#for i in range(0, len(arr) - 1):
-#   cur_index = i
-#   for sec_index in range(cur_index, len(arr)):
-#       if arr[sec_index] < arr[cur_index]:
-#       arr[sec_index], arr[cur_index] = arr[cur_index], arr[sec_index]
-        global count
-        print(self._list)
-        if self._item != None and self.compare_item() == None:
+        count = self._position
+        if self._item == None:
             self.swap_item()
-            self.sort()
-        elif self._item == None and self.can_move_right():
-            print('must grab an item!')
-            self.swap_item()
+        while self.can_move_right():
+            self.move_right()
+            if self.compare_item() == 1:
+                self.swap_item()
+        self._position = count
+        self.swap_item()
+        if self.can_move_right():
             self.move_right()
             self.sort()
-        elif self._item != None and self.can_move_right():
-            if self.compare_item() == 1:
-                print(f'lower number found: {self._list[self._position]} < {self._item}')
-                self.swap_item()
-                if self.can_move_right:
-                    self.move_right()
-                    self.sort()
-                else:
-                    self._position = 0
-            else:
-                print(f'nope! too high: {self._list[self._position]} > {self._item} ')
-                self.move_right()
-                self.sort()
-        elif self._item == None and self.can_move_right()==False:
-            print('are we done?')
+        else: 
             return self._list
-        elif self._item != None and self.can_move_right() ==False:
-            if self.compare_item() == -1:
-                print(f'{self._item} must be smallest current')
-                self._position = count
-                count += 1
-                self.swap_item()
-                if self.can_move_right():
-                    self.move_right()
-                    self.swap_item()
-                    self.move_right()
-                    self.sort()
-                else:
-                    if self._item != None:
-                        self.swap_item()
-                    return self._list 
-            else:
-                print(f'{self._item} must be largest current')
-                self.swap_item()
-                self._position = count
-                count += 1
-                self.swap_item()
-                if self.can_move_right():
-                    self.move_right()
-                    self.sort()
-                else:
-                    if self._item != None:
-                        self.swap_item()
-                    return self._list
+        return self._list
 
 
 
-arr = [20, 77, 45, 16, 15, 91, 12, 6, 24, 89, 53, 19, 85, 56, 13, 74, 48, 98, 9, 92, 25, 35,
-        54, 44, 50, 5, 75, 34, 2, 42, 87, 49, 76, 52, 43, 23, 7, 80, 66, 14, 46, 90, 88, 40,
-        97, 10, 57, 63, 1, 18, 67, 79, 96, 27, 73, 28, 32, 61, 30, 8, 17, 93, 26, 51, 60, 55,
-        62, 31, 47, 64, 39, 22, 99, 95, 83, 70, 38, 69, 36, 41, 37, 65, 84, 3, 29, 58, 0, 94,
-        4, 11, 33, 86, 21, 81, 72, 82, 59, 71, 68, 78]
+
+
+arr = [7, 4, 2, 3, 5, 6, 8, 1, 9, 10]
 robo = SortingRobot(arr)
 robo.sort()
 print(robo._list)
